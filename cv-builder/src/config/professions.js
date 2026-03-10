@@ -56,35 +56,75 @@ const sampleSkill = {
 // Profession Presets map
 export const initialSections = {
     General: [
-        createSection('sec-1', 'summary', 'Professional Summary', []), // items usually empty for summary, handled in personalInfo or as single text block
+        createSection('sec-1', 'summary', 'Professional Summary', []),
         createSection('sec-2', 'experience', 'Experience', [sampleExperience]),
         createSection('sec-3', 'education', 'Education', [sampleEducation]),
         createSection('sec-4', 'skills', 'Skills', [sampleSkill])
     ],
-    Engineering: [
+    "Software Engineer (Frontend)": [
         createSection('sec-1', 'summary', 'Professional Summary', []),
-        createSection('sec-4', 'skills', 'Technical Skills', [sampleSkill]),
-        createSection('sec-2', 'experience', 'Professional Experience', [sampleExperience]),
+        createSection('sec-4', 'skills', 'Technical Skills', [{ id: 's-1', category: 'Frontend', skills: 'React, Vue, TypeScript, TailwindCSS, Webpack' }]),
+        createSection('sec-2', 'experience', 'Professional Experience', [
+            {
+                id: 'e-1', role: 'Frontend Engineer', company: 'Tech Startup', location: 'Remote',
+                startDate: '2021', endDate: 'Present',
+                description: 'Led the migration of legacy Angular app to React, decreasing bundle size by 30% and improving Core Web Vitals.'
+            }
+        ]),
         createSection('sec-5', 'projects', 'Projects', [sampleProject]),
-        createSection('sec-3', 'education', 'Education', [sampleEducation]),
+        createSection('sec-3', 'education', 'Education', [sampleEducation])
     ],
-    Research: [
+    "Software Engineer (Backend)": [
+        createSection('sec-1', 'summary', 'Professional Summary', []),
+        createSection('sec-4', 'skills', 'Technical Skills', [{ id: 's-1', category: 'Backend', skills: 'Python, Go, Node.js, PostgreSQL, Docker, AWS' }]),
+        createSection('sec-2', 'experience', 'Professional Experience', [
+            {
+                id: 'e-1', role: 'Backend Engineer', company: 'Enterprise Inc', location: 'New York, NY',
+                startDate: '2020', endDate: 'Present',
+                description: 'Designed internal load-balancing microservices in Go, handling 15k+ concurrent requests per second.'
+            }
+        ]),
+        createSection('sec-3', 'education', 'Education', [sampleEducation])
+    ],
+    "Data Scientist / Analyst": [
+        createSection('sec-1', 'summary', 'Summary', []),
+        createSection('sec-4', 'skills', 'Tools & Languages', [{ id: 's-1', category: 'Data', skills: 'Python, R, SQL, Pandas, Scikit-learn, Tableau' }]),
+        createSection('sec-2', 'experience', 'Experience', []),
+        createSection('sec-5', 'projects', 'Data Projects', []),
+        createSection('sec-3', 'education', 'Education', [sampleEducation])
+    ],
+    "UX/UI Designer": [
+        createSection('sec-1', 'summary', 'Design Philosophy', []),
+        createSection('sec-2', 'experience', 'Work Experience', []),
+        createSection('sec-5', 'projects', 'Case Studies', []),
+        createSection('sec-4', 'skills', 'Design Tools', [{ id: 's-1', category: 'Software', skills: 'Figma, Sketch, Adobe Creative Suite, Webflow' }]),
+        createSection('sec-3', 'education', 'Education', [])
+    ],
+    "Investment Banking / Finance": [
+        createSection('sec-1', 'summary', 'Executive Summary', []),
+        createSection('sec-3', 'education', 'Education', [sampleEducation]),
+        createSection('sec-2', 'experience', 'Professional Experience', []),
+        createSection('sec-4', 'skills', 'Core Competencies', [{ id: 's-1', category: 'Finance', skills: 'Financial Modeling, Valuation, DCF Analysis, Excel (Advanced)' }])
+    ],
+    "Marketing / SEO": [
+        createSection('sec-1', 'summary', 'Summary', []),
+        createSection('sec-2', 'experience', 'Marketing Experience', []),
+        createSection('sec-5', 'projects', 'Campaigns', []),
+        createSection('sec-4', 'skills', 'Marketing Tools', [{ id: 's-1', category: 'Tools', skills: 'Google Analytics, Ahrefs, SEMrush, HubSpot, Mailchimp' }]),
+        createSection('sec-3', 'education', 'Education', [])
+    ],
+    "Research / Academic": [
         createSection('sec-1', 'summary', 'Academic Summary', []),
         createSection('sec-3', 'education', 'Education', [sampleEducation]),
         createSection('sec-6', 'research', 'Research Experience', []),
         createSection('sec-7', 'publications', 'Publications', []),
         createSection('sec-4', 'skills', 'Skills', [sampleSkill])
     ],
-    Medical: [
-        createSection('sec-1', 'summary', 'Summary', []),
+    "Student / Entry Level": [
+        createSection('sec-1', 'summary', 'Objective', []),
         createSection('sec-3', 'education', 'Education', [sampleEducation]),
-        createSection('sec-8', 'residency', 'Residency / Clinical Experience', []),
-        createSection('sec-9', 'certifications', 'Board Certifications', [])
-    ],
-    Student: [
-        createSection('sec-3', 'education', 'Education', [sampleEducation]),
-        createSection('sec-5', 'projects', 'Projects', [sampleProject]),
-        createSection('sec-4', 'skills', 'Skills', [sampleSkill]),
-        createSection('sec-10', 'achievements', 'Awards & Achievements', []),
+        createSection('sec-5', 'projects', 'Academic Projects', [sampleProject]),
+        createSection('sec-2', 'experience', 'Leadership & Extracurriculars', []),
+        createSection('sec-4', 'skills', 'Skills', [sampleSkill])
     ]
 };

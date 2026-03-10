@@ -3,7 +3,6 @@ import EditorPanel from '../components/editor/EditorPanel';
 import CVPreview from '../components/preview/CVPreview';
 import { useCVStore } from '../state/useCVStore';
 import { Briefcase } from 'lucide-react';
-import { initialSections } from '../config/professions';
 
 const BuilderPage = () => {
     const loadProfessionPreset = useCVStore((state) => state.loadProfessionPreset);
@@ -26,13 +25,12 @@ const BuilderPage = () => {
                         <button className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors py-2">
                             <Briefcase className="w-4 h-4" /> Load Preset
                         </button>
-                        <div className="absolute right-0 top-full mt-1 w-64 bg-white border border-gray-100 shadow-xl rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 max-h-96 overflow-y-auto custom-scrollbar">
-                            <div className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-4 pt-3 pb-1">Industry Templates</div>
-                            {Object.keys(initialSections).map(preset => (
+                        <div className="absolute right-0 top-full mt-1 w-48 bg-white border border-gray-100 shadow-xl rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            {['General', 'Engineering', 'Research', 'Medical', 'Student'].map(preset => (
                                 <button
                                     key={preset}
                                     onClick={() => loadProfessionPreset(preset)}
-                                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 transition-colors"
+                                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                                 >
                                     {preset}
                                 </button>
