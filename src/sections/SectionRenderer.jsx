@@ -4,8 +4,10 @@ import Experience from '../sections/Experience';
 import Education from '../sections/Education';
 import Projects from '../sections/Projects';
 import Skills from '../sections/Skills';
+import Summary from '../sections/Summary';
 
 const componentsMap = {
+    summary: Summary,
     experience: Experience,
     education: Education,
     projects: Projects,
