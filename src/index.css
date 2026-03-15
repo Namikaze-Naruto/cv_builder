@@ -6,6 +6,9 @@
   body {
     @apply font-inter bg-slate-50 text-slate-900 antialiased;
   }
+  h1, h2, h3 {
+    @apply font-outfit;
+  }
 }
 
 /* Custom thin scrollbar for editor and preview panels */
