@@ -7,7 +7,7 @@ const getInitialDarkMode = () => {
     try {
         const stored = localStorage.getItem('builderpro-dark');
         if (stored !== null) return stored === 'true';
-    } catch (_) { }
+    } catch { /* ignore localStorage errors */ }
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 };
 
@@ -38,7 +38,7 @@ export const useCVStore = create(
         set((state) => {
             const next = !state.darkMode;
             applyDarkClass(next);
-            try { localStorage.setItem('builderpro-dark', String(next)); } catch (_) { }
+            try { localStorage.setItem('builderpro-dark', String(next)); } catch { /* ignore localStorage errors */ }
             return { darkMode: next };
         }),
 
