@@ -1,24 +1,68 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, FileText, Target, CheckCircle, ArrowRight, Zap, Layout, Star } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const fadeUp = {
+    hidden: { opacity: 0, y: 24 },
+    visible: (i = 0) => ({
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.5, delay: i * 0.1, ease: 'easeOut' },
+    }),
+};
+
+const templateShowcase = [
+    { key: 'Template1', name: 'Classic Clean', accent: '#4f46e5', desc: 'Clean, traditional layout. Works for any industry.' },
+    { key: 'Template2', name: 'Modern Sidebar', accent: '#0891b2', desc: 'Bold sidebar header. Great for tech & design roles.' },
+    { key: 'Template3', name: 'Compact Serif', accent: '#7c3aed', desc: 'Elegant serif typography. Perfect for law & academia.' },
+    { key: 'Template4', name: 'Executive Wall Street', accent: '#1e3a5f', desc: 'Authoritative layout for finance & consulting.' },
+    { key: 'Template5', name: 'Creative Indigo', accent: '#6366f1', desc: 'Vibrant & expressive. Ideal for designers & marketers.' },
+    { key: 'Template6', name: 'Harvard Academic', accent: '#b91c1c', desc: 'Research-focused. Standard for academic positions.' },
+    { key: 'Template7', name: 'Technical Timeline', accent: '#0f766e', desc: 'Timeline-based. Built for engineers & developers.' },
+    { key: 'Template8', name: 'Elegant Teal', accent: '#0d9488', desc: 'Polished & professional for business & management.' },
+    { key: 'Template9', name: 'Bold Two-Tone', accent: '#374151', desc: 'High-contrast modern split. For bold personal brands.' },
+];
+
+const features = [
+    {
+        icon: <Target className="h-6 w-6 text-white" />,
+        title: 'Job Targeting Matrix',
+        desc: 'Paste the job description and our AI instantly identifies the keywords you\'re missing to beat ATS software like Greenhouse and Lever.',
+    },
+    {
+        icon: <FileText className="h-6 w-6 text-white" />,
+        title: 'LaTeX-Quality Templates',
+        desc: 'Beautiful, professional layouts that never break. Designed precisely for A4 PDF export with perfect margins and crisp typography.',
+    },
+    {
+        icon: <CheckCircle className="h-6 w-6 text-white" />,
+        title: 'Smart Resume Scoring',
+        desc: 'Get instant feedback on your resume\'s strength, formatting, and impact metrics before you even apply.',
+    },
+    {
+        icon: <Sparkles className="h-6 w-6 text-white" />,
+        title: 'Live Preview Editor',
+        desc: 'What you see is exactly what you get. Edit fields and watch your resume update in real-time on the right.',
+    },
+];
 
 const LandingPage = () => {
     return (
         <div className="min-h-screen bg-slate-50 font-inter">
-            {/* Navigation */}
-            <nav className="border-b bg-white border-gray-100 relative z-10">
+            {/* Navigation — glassmorphism */}
+            <nav className="sticky top-0 z-30 border-b border-white/20 backdrop-blur-md bg-white/80 shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16 items-center">
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 bg-indigo-600 rounded-md flex items-center justify-center text-white font-bold text-sm">
                                 CV
                             </div>
-                            <span className="font-bold text-gray-900 tracking-tight text-xl">Builder<span className="text-indigo-600">Pro</span></span>
+                            <span className="font-bold text-gray-900 tracking-tight text-xl font-outfit">Builder<span className="text-indigo-600">Pro</span></span>
                         </div>
                         <div className="hidden md:flex items-center space-x-8">
                             <a href="#features" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">Features</a>
                             <a href="#templates" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">Templates</a>
-                            <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">Pricing</a>
                         </div>
                         <div className="flex items-center space-x-4">
                             <button className="text-gray-600 hover:text-gray-900 text-sm font-medium hidden sm:block transition-colors">Log in</button>
@@ -32,30 +76,62 @@ const LandingPage = () => {
 
             {/* Hero Section */}
             <div className="relative overflow-hidden bg-white pb-16 pt-20 sm:pb-24 sm:pt-32 lg:pb-32 lg:pt-40 border-b border-gray-100">
-                {/* Gradient blob */}
+                {/* Animated gradient blob */}
                 <div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
-                    <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#818cf8] to-[#9089fc] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"></div>
+                    <div className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#818cf8] to-[#9089fc] opacity-20 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem] animate-pulse"></div>
                 </div>
                 <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-br from-indigo-50 via-white to-purple-50 -z-10" />
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <div className="flex justify-center mb-6">
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeUp}
+                        custom={0}
+                        className="flex justify-center mb-6"
+                    >
                         <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">
                             <Sparkles className="w-4 h-4 mr-2" /> AI-Powered Resume Scoring now live
                         </span>
-                    </div>
-                    <h1 className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-7xl mb-6">
+                    </motion.div>
+                    <motion.h1
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeUp}
+                        custom={1}
+                        className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-7xl mb-6 font-outfit"
+                    >
                         Land your next job with a <br className="hidden sm:block" /> <span className="text-indigo-600">targeted resume.</span>
-                    </h1>
-                    <p className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10">
+                    </motion.h1>
+                    <motion.p
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeUp}
+                        custom={2}
+                        className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10"
+                    >
                         Create an ATS-friendly, professional resume in under 5 minutes. Paste your target job description and let AI optimize your application to stand out.
-                    </p>
-                    <div className="flex justify-center gap-4">
-                        <Link to="/build" className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all">
+                    </motion.p>
+                    <motion.div
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeUp}
+                        custom={3}
+                        className="flex justify-center gap-4"
+                    >
+                        <Link to="/build" className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all hover:shadow-lg hover:shadow-indigo-200">
                             Create Resume for Free <ArrowRight className="w-4 h-4" />
                         </Link>
-                    </div>
-                    <p className="mt-4 text-sm text-gray-400">No credit card required. Free PDF downloads included.</p>
+                    </motion.div>
+                    <motion.p
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeUp}
+                        custom={4}
+                        className="mt-4 text-sm text-gray-400"
+                    >
+                        No credit card required. Free PDF downloads included.
+                    </motion.p>
                 </div>
             </div>
 
@@ -74,58 +150,39 @@ const LandingPage = () => {
             {/* Features */}
             <div id="features" className="py-24 sm:py-32 bg-slate-50">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl lg:text-center">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.3 }}
+                        variants={fadeUp}
+                        className="mx-auto max-w-2xl lg:text-center"
+                    >
                         <h2 className="text-base font-semibold leading-7 text-indigo-600 uppercase tracking-wide">Faster applications</h2>
-                        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-outfit">
                             Everything you need to get hired
                         </p>
-                    </div>
+                    </motion.div>
                     <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                         <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
-                            <div className="relative pl-16">
-                                <dt className="text-base font-semibold leading-7 text-gray-900">
-                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                        <Target className="h-6 w-6 text-white" />
-                                    </div>
-                                    Job Targeting Matrix
-                                </dt>
-                                <dd className="mt-2 text-base leading-7 text-gray-600">
-                                    Paste the job description and our AI instantly identifies the keywords you're missing to beat the ATS software like Greenhouse and Lever.
-                                </dd>
-                            </div>
-                            <div className="relative pl-16">
-                                <dt className="text-base font-semibold leading-7 text-gray-900">
-                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                        <FileText className="h-6 w-6 text-white" />
-                                    </div>
-                                    LaTeX-Quality Templates
-                                </dt>
-                                <dd className="mt-2 text-base leading-7 text-gray-600">
-                                    Beautiful, professional layouts that never break. Designed precisely for A4 PDF export with perfect margins and crisp typography.
-                                </dd>
-                            </div>
-                            <div className="relative pl-16">
-                                <dt className="text-base font-semibold leading-7 text-gray-900">
-                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                        <CheckCircle className="h-6 w-6 text-white" />
-                                    </div>
-                                    Smart Resume Scoring
-                                </dt>
-                                <dd className="mt-2 text-base leading-7 text-gray-600">
-                                    Get instant feedback on your resume's strength, formatting, and impact metrics before you even apply.
-                                </dd>
-                            </div>
-                            <div className="relative pl-16">
-                                <dt className="text-base font-semibold leading-7 text-gray-900">
-                                    <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
-                                        <Sparkles className="h-6 w-6 text-white" />
-                                    </div>
-                                    Live Preview Editor
-                                </dt>
-                                <dd className="mt-2 text-base leading-7 text-gray-600">
-                                    What you see is exactly what you get. Edit fields and watch your resume update in real-time on the right.
-                                </dd>
-                            </div>
+                            {features.map((feat, i) => (
+                                <motion.div
+                                    key={feat.title}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true, amount: 0.2 }}
+                                    variants={fadeUp}
+                                    custom={i * 0.5}
+                                    className="relative pl-16"
+                                >
+                                    <dt className="text-base font-semibold leading-7 text-gray-900">
+                                        <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600 shadow-md shadow-indigo-200">
+                                            {feat.icon}
+                                        </div>
+                                        {feat.title}
+                                    </dt>
+                                    <dd className="mt-2 text-base leading-7 text-gray-600">{feat.desc}</dd>
+                                </motion.div>
+                            ))}
                         </dl>
                     </div>
                 </div>
@@ -134,18 +191,29 @@ const LandingPage = () => {
             {/* Templates Section */}
             <div id="templates" className="py-24 bg-white border-t border-gray-100">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <div className="text-center mb-14">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, amount: 0.2 }}
+                        variants={fadeUp}
+                        className="text-center mb-14"
+                    >
                         <h2 className="text-base font-semibold text-indigo-600 uppercase tracking-wide">Templates</h2>
-                        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Pick your style</p>
-                        <p className="mt-4 text-gray-500 text-base max-w-xl mx-auto">All templates are ATS-friendly and export perfectly to PDF. Swap between them anytime — your data stays intact.</p>
-                    </div>
+                        <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-outfit">Pick your style</p>
+                        <p className="mt-4 text-gray-500 text-base max-w-xl mx-auto">All 9 templates are ATS-friendly and export perfectly to PDF. Swap between them anytime — your data stays intact.</p>
+                    </motion.div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[
-                            { name: 'Classic', accent: '#4f46e5', desc: 'Clean, traditional layout. Works for any industry.' },
-                            { name: 'Modern', accent: '#0891b2', desc: 'Sidebar layout with a bold header. Great for tech roles.' },
-                            { name: 'Minimal', accent: '#16a34a', desc: 'Whitespace-first design. Let your content speak.' },
-                        ].map((tpl) => (
-                            <div key={tpl.name} className="group rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-lg transition-shadow cursor-pointer">
+                        {templateShowcase.map((tpl, i) => (
+                            <motion.div
+                                key={tpl.key}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, amount: 0.1 }}
+                                variants={fadeUp}
+                                custom={i * 0.15}
+                                whileHover={{ y: -4, boxShadow: '0 20px 40px -8px rgba(0,0,0,0.12)' }}
+                                className="group rounded-xl border border-gray-200 overflow-hidden shadow-sm cursor-pointer transition-shadow"
+                            >
                                 {/* Mini resume mock */}
                                 <div className="bg-gray-50 h-52 flex flex-col p-5 gap-2 relative overflow-hidden">
                                     <div className="h-4 rounded" style={{ background: tpl.accent, width: '60%' }} />
@@ -169,11 +237,11 @@ const LandingPage = () => {
                                         <Link to="/build" className="text-xs font-medium text-indigo-600 hover:text-indigo-800 whitespace-nowrap">Use →</Link>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         ))}
                     </div>
                     <div className="mt-10 text-center">
-                        <Link to="/build" className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-md transition-colors shadow-sm">
+                        <Link to="/build" className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded-md transition-colors shadow-sm hover:shadow-md hover:shadow-indigo-200">
                             Start Building <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>
@@ -185,7 +253,7 @@ const LandingPage = () => {
                 <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
                     <div className="flex items-center gap-2">
                         <div className="w-7 h-7 bg-indigo-600 rounded-md flex items-center justify-center text-white font-bold text-xs">CV</div>
-                        <span className="font-semibold text-white">BuilderPro</span>
+                        <span className="font-semibold text-white font-outfit">BuilderPro</span>
                     </div>
                     <p className="text-gray-500">Created by <span className="text-white font-medium">Prem (प्रेम)</span></p>
                     <div className="flex gap-6">

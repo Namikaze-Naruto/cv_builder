@@ -8,6 +8,7 @@ import {
     PointerSensor,
     useSensor,
     useSensors,
+    DragOverlay,
 } from '@dnd-kit/core';
 import {
     arrayMove,
@@ -17,6 +18,8 @@ import {
     useSortable
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { GripVertical } from 'lucide-react';
+import { useState } from 'react';
 
 const SortableSection = ({ section }) => {
     const {
@@ -32,12 +35,27 @@ const SortableSection = ({ section }) => {
         transform: CSS.Transform.toString(transform),
         transition,
         zIndex: isDragging ? 50 : 1,
-        opacity: isDragging ? 0.8 : 1,
     };
 
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="touch-none">
-            <SectionEditor section={section} />
+        <div
+            ref={setNodeRef}
+            style={style}
+            className={`relative mb-3 rounded-md ${isDragging ? 'opacity-0 ring-2 ring-indigo-300 ring-dashed' : ''}`}
+        >
+            {/* Grab handle — separate from click area so expand/collapse still works */}
+            <div
+                {...attributes}
+                {...listeners}
+                className="absolute left-0 top-0 bottom-0 w-7 flex items-center justify-center cursor-grab active:cursor-grabbing text-gray-300 hover:text-indigo-400 transition-colors touch-none z-10"
+                aria-label="Drag to reorder section"
+                title="Drag to reorder"
+            >
+                <GripVertical className="w-4 h-4" />
+            </div>
+            <div className="pl-7">
+                <SectionEditor section={section} />
+            </div>
         </div>
     );
 };
@@ -45,11 +63,12 @@ const SortableSection = ({ section }) => {
 const SectionManager = () => {
     const sections = useCVStore((state) => state.cvData.sections);
     const reorderSections = useCVStore((state) => state.reorderSections);
+    const [activeId, setActiveId] = useState(null);
 
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
-                distance: 5, // minimum distance dragged before dragging starts
+                distance: 5,
             }
         }),
         useSensor(KeyboardSensor, {
@@ -57,8 +76,13 @@ const SectionManager = () => {
         })
     );
 
+    const handleDragStart = (event) => {
+        setActiveId(event.active.id);
+    };
+
     const handleDragEnd = (event) => {
         const { active, over } = event;
+        setActiveId(null);
 
         if (over && active.id !== over.id) {
             const oldIndex = sections.findIndex((item) => item.id === active.id);
@@ -69,11 +93,14 @@ const SectionManager = () => {
         }
     };
 
+    const activeSection = activeId ? sections.find(s => s.id === activeId) : null;
+
     return (
         <div className="w-full">
             <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
+                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
             >
                 <SortableContext
@@ -84,6 +111,15 @@ const SectionManager = () => {
                         <SortableSection key={section.id} section={section} />
                     ))}
                 </SortableContext>
+
+                {/* Drag Overlay — shows a floating ghost while dragging */}
+                <DragOverlay>
+                    {activeSection ? (
+                        <div className="rounded-md border border-indigo-300 bg-white shadow-2xl shadow-indigo-100 opacity-95 pl-7">
+                            <SectionEditor section={activeSection} />
+                        </div>
+                    ) : null}
+                </DragOverlay>
             </DndContext>
         </div>
     );
