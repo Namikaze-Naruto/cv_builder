@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, FileText, Target, CheckCircle, ArrowRight, Zap, Layout, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // eslint-disable-line no-unused-vars
 
 const fadeUp = {
     hidden: { opacity: 0, y: 24 },
