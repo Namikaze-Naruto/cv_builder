@@ -32,15 +32,17 @@ const BuilderPage = () => {
                         <button
                             className="flex items-center gap-2 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-2 min-h-[44px]"
                             aria-label="Load a profession preset"
+                            aria-haspopup="menu"
                         >
                             <Briefcase className="w-4 h-4" /> <span className="hidden md:inline">Load Preset</span>
                         </button>
-                        <div className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div className="absolute right-0 top-full mt-1 w-48 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 z-50" role="menu" aria-label="Profession presets">
                             {['General', 'Engineering', 'Research', 'Medical', 'Student'].map(preset => (
                                 <button
                                     key={preset}
                                     onClick={() => loadProfessionPreset(preset)}
                                     className="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 min-h-[44px]"
+                                    role="menuitem"
                                 >
                                     {preset}
                                 </button>

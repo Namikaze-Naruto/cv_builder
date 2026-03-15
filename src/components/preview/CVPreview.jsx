@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useCVStore } from '../../state/useCVStore';
 import { templates, templateMeta } from '../../templates/registry';
 import { useReactToPrint } from 'react-to-print';
@@ -8,8 +8,30 @@ const CVPreview = () => {
     const cvData = useCVStore((state) => state.cvData);
     const setTemplate = useCVStore((state) => state.setTemplate);
     const componentRef = useRef();
+    const templateMenuRef = useRef(null);
 
     const [showTemplates, setShowTemplates] = useState(false);
+
+    useEffect(() => {
+        const onPointerDown = (event) => {
+            if (!templateMenuRef.current?.contains(event.target)) {
+                setShowTemplates(false);
+            }
+        };
+
+        const onKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                setShowTemplates(false);
+            }
+        };
+
+        document.addEventListener('mousedown', onPointerDown);
+        document.addEventListener('keydown', onKeyDown);
+        return () => {
+            document.removeEventListener('mousedown', onPointerDown);
+            document.removeEventListener('keydown', onKeyDown);
+        };
+    }, []);
 
     const handlePrint = useReactToPrint({
         contentRef: componentRef,
@@ -33,14 +55,15 @@ const CVPreview = () => {
         <div className="flex-1 flex flex-col bg-gray-100 overflow-hidden min-h-0">
 
             {/* Utility Bar */}
-            <div className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 shrink-0 shadow-sm z-10">
-                <div className="flex items-center gap-4">
-                    <div className="relative">
+            <div className="bg-white border-b border-gray-200 px-4 py-2 sm:px-6 sm:py-0 sm:h-14 shrink-0 shadow-sm z-10 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div className="flex items-center flex-wrap gap-2 sm:gap-4">
+                    <div ref={templateMenuRef} className="relative">
                         <button
                             onClick={() => setShowTemplates(!showTemplates)}
                             className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-md text-sm font-medium flex items-center gap-2 text-gray-700 transition-colors min-h-[44px]"
                             aria-label="Change template"
                             aria-expanded={showTemplates}
+                            aria-haspopup="menu"
                         >
                             <LayoutTemplate className="w-4 h-4" />
                             <span className="hidden sm:inline">Change Template</span>
@@ -48,13 +71,15 @@ const CVPreview = () => {
                         </button>
 
                         {showTemplates && (
-                            <div className="absolute top-12 left-0 w-56 bg-white border border-gray-200 shadow-xl rounded-md p-2 z-50">
+                            <div className="absolute top-12 left-0 w-56 max-w-[85vw] bg-white border border-gray-200 shadow-xl rounded-md p-2 z-50" role="menu" aria-label="Available templates">
                                 <div className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 px-2">Available Layouts</div>
                                 {Object.keys(templates).map(t => (
                                     <button
                                         key={t}
                                         onClick={() => { setTemplate(t); setShowTemplates(false); }}
                                         className={`w-full text-left px-3 py-2 text-sm rounded-md hover:bg-indigo-50 hover:text-indigo-700 transition-colors ${cvData.template === t ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-700'}`}
+                                        role="menuitemradio"
+                                        aria-checked={cvData.template === t}
                                     >
                                         {templateMeta[t]?.label || t}
                                     </button>
@@ -66,17 +91,18 @@ const CVPreview = () => {
                     {/* Resume Score */}
                     <button
                         title="Paste a job description in the editor and click Generate to calculate your score"
-                        className="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-md text-sm font-medium flex items-center gap-2 transition-colors min-h-[44px]"
+                        className="px-3 sm:px-4 py-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-md text-sm font-medium flex items-center gap-2 transition-colors min-h-[44px]"
                         aria-label="Resume ATS score"
                     >
                         <Activity className="w-4 h-4" />
-                        <span>Score: {cvData.score ? cvData.score.total : 'Uncalculated'}</span>
+                        <span className="hidden sm:inline">Score: {cvData.score ? cvData.score.total : 'Uncalculated'}</span>
+                        <span className="sm:hidden">{cvData.score ? cvData.score.total : '--'}</span>
                     </button>
                 </div>
 
                 <button
                     onClick={handlePrint}
-                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors hover:shadow-md min-h-[44px]"
+                    className="w-full sm:w-auto px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md text-sm font-semibold flex items-center justify-center gap-2 shadow-sm transition-colors hover:shadow-md min-h-[44px]"
                     aria-label="Download resume as PDF"
                 >
                     <Download className="w-4 h-4" />

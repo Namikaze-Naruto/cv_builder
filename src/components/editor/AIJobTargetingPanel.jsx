@@ -41,10 +41,10 @@ const AIJobTargetingPanel = () => {
         <div className="bg-white rounded-lg shadow-sm border border-indigo-200 p-5 mb-6 overflow-hidden relative">
             <div className="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
 
-            <div className="flex items-center gap-2 mb-3">
+            <div className="flex items-center flex-wrap gap-2 mb-3">
                 <Target className="w-5 h-5 text-indigo-600" />
-                <h2 className="text-xl font-bold text-gray-900">AI Job Targeting</h2>
-                <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2 py-0.5 rounded ml-auto flex items-center gap-1">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900">AI Job Targeting</h2>
+                <span className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-2 py-0.5 rounded sm:ml-auto flex items-center gap-1">
                     <Sparkles className="w-3 h-3" /> Pro
                 </span>
             </div>

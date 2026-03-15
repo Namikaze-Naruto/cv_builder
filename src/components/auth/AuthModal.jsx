@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { X, Mail, Lock, User, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { isSupabaseConfigured, getSupabase } from '../../lib/supabase';
 
@@ -10,6 +10,19 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const titleRef = useRef(null);
+
+    useEffect(() => {
+        titleRef.current?.focus();
+    }, []);
+
+    useEffect(() => {
+        const onKeyDown = (event) => {
+            if (event.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [onClose]);
 
     if (!isOpen) return null;
 
@@ -35,7 +48,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                 });
                 if (err) throw err;
                 setSuccess('Account created! Check your email to confirm.');
-                if (data.user && !data.user.identities?.length === 0) {
+                if (data.user && (data.user.identities?.length ?? 0) > 0) {
                     onAuthSuccess?.(data.user);
                 }
             } else {
@@ -67,16 +80,18 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
             <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
             {/* Modal */}
-            <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md p-8 z-10">
+            <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-md p-8 z-10" role="dialog" aria-modal="true" aria-labelledby="auth-modal-title">
                 <button
                     onClick={onClose}
+                    type="button"
                     className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                    aria-label="Close authentication modal"
                 >
                     <X className="w-5 h-5" />
                 </button>
 
                 <div className="mb-6">
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    <h2 id="auth-modal-title" ref={titleRef} tabIndex={-1} className="text-2xl font-bold text-gray-900 dark:text-white focus:outline-none">
                         {mode === 'login' ? 'Welcome back' : 'Create account'}
                     </h2>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -165,6 +180,7 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
 
                 <button
                     onClick={handleGoogleLogin}
+                    type="button"
                     disabled={!configured}
                     className="w-full py-2.5 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg text-sm font-medium flex items-center justify-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-50"
                 >
@@ -175,11 +191,11 @@ const AuthModal = ({ isOpen, onClose, onAuthSuccess }) => {
                 <p className="mt-5 text-center text-sm text-gray-500 dark:text-gray-400">
                     {mode === 'login' ? (
                         <>Don't have an account?{' '}
-                            <button onClick={() => { setMode('signup'); setError(''); }} className="text-indigo-600 font-medium hover:underline">Sign up</button>
+                            <button type="button" onClick={() => { setMode('signup'); setError(''); }} className="text-indigo-600 font-medium hover:underline">Sign up</button>
                         </>
                     ) : (
                         <>Already have an account?{' '}
-                            <button onClick={() => { setMode('login'); setError(''); }} className="text-indigo-600 font-medium hover:underline">Sign in</button>
+                            <button type="button" onClick={() => { setMode('login'); setError(''); }} className="text-indigo-600 font-medium hover:underline">Sign in</button>
                         </>
                     )}
                 </p>

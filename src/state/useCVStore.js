@@ -4,10 +4,11 @@ import { initialPersonalInfo, initialSections } from '../config/professions';
 
 // Persist dark mode preference across sessions
 const getInitialDarkMode = () => {
-    try {
-        const stored = localStorage.getItem('builderpro-dark');
+    const canUseStorage = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+    if (canUseStorage) {
+        const stored = window.localStorage.getItem('builderpro-dark');
         if (stored !== null) return stored === 'true';
-    } catch (_) { }
+    }
     return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
 };
 
@@ -38,7 +39,9 @@ export const useCVStore = create(
         set((state) => {
             const next = !state.darkMode;
             applyDarkClass(next);
-            try { localStorage.setItem('builderpro-dark', String(next)); } catch (_) { }
+            if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+                window.localStorage.setItem('builderpro-dark', String(next));
+            }
             return { darkMode: next };
         }),
 

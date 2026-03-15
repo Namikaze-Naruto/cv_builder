@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, FileText, Target, CheckCircle, ArrowRight, Zap, Layout, Star } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { motion as Motion } from 'framer-motion';
 
 const fadeUp = {
     hidden: { opacity: 0, y: 24 },
@@ -65,7 +65,7 @@ const LandingPage = () => {
                             <a href="#templates" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">Templates</a>
                         </div>
                         <div className="flex items-center space-x-4">
-                            <button className="text-gray-600 hover:text-gray-900 text-sm font-medium hidden sm:block transition-colors">Log in</button>
+                            <Link to="/build" className="text-gray-600 hover:text-gray-900 text-sm font-medium hidden sm:block transition-colors">Log in</Link>
                             <Link to="/build" className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium text-sm transition-colors shadow-sm">
                                 Build My Resume
                             </Link>
@@ -83,7 +83,7 @@ const LandingPage = () => {
                 <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-br from-indigo-50 via-white to-purple-50 -z-10" />
 
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <motion.div
+                    <Motion.div
                         initial="hidden"
                         animate="visible"
                         variants={fadeUp}
@@ -93,17 +93,17 @@ const LandingPage = () => {
                         <span className="inline-flex items-center rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 ring-1 ring-inset ring-indigo-600/20">
                             <Sparkles className="w-4 h-4 mr-2" /> AI-Powered Resume Scoring now live
                         </span>
-                    </motion.div>
-                    <motion.h1
+                    </Motion.div>
+                    <Motion.h1
                         initial="hidden"
                         animate="visible"
                         variants={fadeUp}
                         custom={1}
-                        className="text-5xl font-extrabold tracking-tight text-gray-900 sm:text-7xl mb-6 font-outfit"
+                        className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-7xl mb-6 font-outfit"
                     >
                         Land your next job with a <br className="hidden sm:block" /> <span className="text-indigo-600">targeted resume.</span>
-                    </motion.h1>
-                    <motion.p
+                    </Motion.h1>
+                    <Motion.p
                         initial="hidden"
                         animate="visible"
                         variants={fadeUp}
@@ -111,19 +111,19 @@ const LandingPage = () => {
                         className="mt-4 text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed mb-10"
                     >
                         Create an ATS-friendly, professional resume in under 5 minutes. Paste your target job description and let AI optimize your application to stand out.
-                    </motion.p>
-                    <motion.div
+                    </Motion.p>
+                    <Motion.div
                         initial="hidden"
                         animate="visible"
                         variants={fadeUp}
                         custom={3}
-                        className="flex justify-center gap-4"
+                        className="flex justify-center gap-4 w-full"
                     >
-                        <Link to="/build" className="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all hover:shadow-lg hover:shadow-indigo-200">
+                        <Link to="/build" className="inline-flex w-full sm:w-auto justify-center items-center gap-2 rounded-md bg-indigo-600 px-6 sm:px-8 py-3.5 text-base font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition-all hover:shadow-lg hover:shadow-indigo-200">
                             Create Resume for Free <ArrowRight className="w-4 h-4" />
                         </Link>
-                    </motion.div>
-                    <motion.p
+                    </Motion.div>
+                    <Motion.p
                         initial="hidden"
                         animate="visible"
                         variants={fadeUp}
@@ -131,7 +131,7 @@ const LandingPage = () => {
                         className="mt-4 text-sm text-gray-400"
                     >
                         No credit card required. Free PDF downloads included.
-                    </motion.p>
+                    </Motion.p>
                 </div>
             </div>
 
@@ -150,7 +150,7 @@ const LandingPage = () => {
             {/* Features */}
             <div id="features" className="py-24 sm:py-32 bg-slate-50">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <motion.div
+                    <Motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.3 }}
@@ -161,11 +161,11 @@ const LandingPage = () => {
                         <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-outfit">
                             Everything you need to get hired
                         </p>
-                    </motion.div>
+                    </Motion.div>
                     <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
                         <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16">
                             {features.map((feat, i) => (
-                                <motion.div
+                                <Motion.div
                                     key={feat.title}
                                     initial="hidden"
                                     whileInView="visible"
@@ -181,7 +181,7 @@ const LandingPage = () => {
                                         {feat.title}
                                     </dt>
                                     <dd className="mt-2 text-base leading-7 text-gray-600">{feat.desc}</dd>
-                                </motion.div>
+                                </Motion.div>
                             ))}
                         </dl>
                     </div>
@@ -191,7 +191,7 @@ const LandingPage = () => {
             {/* Templates Section */}
             <div id="templates" className="py-24 bg-white border-t border-gray-100">
                 <div className="mx-auto max-w-7xl px-6 lg:px-8">
-                    <motion.div
+                    <Motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, amount: 0.2 }}
@@ -201,10 +201,10 @@ const LandingPage = () => {
                         <h2 className="text-base font-semibold text-indigo-600 uppercase tracking-wide">Templates</h2>
                         <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl font-outfit">Pick your style</p>
                         <p className="mt-4 text-gray-500 text-base max-w-xl mx-auto">All 9 templates are ATS-friendly and export perfectly to PDF. Swap between them anytime — your data stays intact.</p>
-                    </motion.div>
+                    </Motion.div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {templateShowcase.map((tpl, i) => (
-                            <motion.div
+                            <Motion.div
                                 key={tpl.key}
                                 initial="hidden"
                                 whileInView="visible"
@@ -212,7 +212,7 @@ const LandingPage = () => {
                                 variants={fadeUp}
                                 custom={i * 0.15}
                                 whileHover={{ y: -4, boxShadow: '0 20px 40px -8px rgba(0,0,0,0.12)' }}
-                                className="group rounded-xl border border-gray-200 overflow-hidden shadow-sm cursor-pointer transition-shadow"
+                                className="group rounded-xl border border-gray-200 overflow-hidden shadow-sm transition-shadow"
                             >
                                 {/* Mini resume mock */}
                                 <div className="bg-gray-50 h-52 flex flex-col p-5 gap-2 relative overflow-hidden">
@@ -237,7 +237,7 @@ const LandingPage = () => {
                                         <Link to="/build" className="text-xs font-medium text-indigo-600 hover:text-indigo-800 whitespace-nowrap">Use →</Link>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </Motion.div>
                         ))}
                     </div>
                     <div className="mt-10 text-center">
