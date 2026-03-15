@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { initialPersonalInfo, initialSections } from '../config/professions';
 
 // Persist dark mode preference across sessions
@@ -19,8 +20,10 @@ applyDarkClass(getInitialDarkMode());
 
 // This is the core data store for the CV Builder.
 // It handles all state related to the user's CV content, layout, and AI targeting.
-export const useCVStore = create((set) => ({
-    darkMode: getInitialDarkMode(),
+export const useCVStore = create(
+    persist(
+        (set) => ({
+            darkMode: getInitialDarkMode(),
 
     cvData: {
         template: 'Template1', // default layout
@@ -108,5 +111,12 @@ export const useCVStore = create((set) => ({
                 sections: initialSections[professionKey] || initialSections.General,
             },
         })),
-}));
+}),
+{
+    name: 'builderpro-cv-data',
+    // Only persist cvData — darkMode has its own localStorage key
+    partialize: (state) => ({ cvData: state.cvData }),
+}
+    )
+);
 

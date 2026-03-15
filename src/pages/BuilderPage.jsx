@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import EditorPanel from '../components/editor/EditorPanel';
 import CVPreview from '../components/preview/CVPreview';
 import { useCVStore } from '../state/useCVStore';
-import { Briefcase, Sun, Moon } from 'lucide-react';
+import { Briefcase, Sun, Moon, ExternalLink, LogIn } from 'lucide-react';
+import AuthModal from '../components/auth/AuthModal';
+import { Link } from 'react-router-dom';
 
 const BuilderPage = () => {
     const loadProfessionPreset = useCVStore((state) => state.loadProfessionPreset);
     const darkMode = useCVStore((state) => state.darkMode);
     const toggleDarkMode = useCVStore((state) => state.toggleDarkMode);
+    const [authOpen, setAuthOpen] = useState(false);
 
     return (
         <div className="h-screen w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-950">
@@ -42,6 +45,17 @@ const BuilderPage = () => {
 
                     <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1"></div>
 
+                    {/* Portfolio Link */}
+                    <Link
+                        to="/port"
+                        className="flex items-center gap-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-2"
+                        title="View your web portfolio"
+                    >
+                        <ExternalLink className="w-4 h-4" /> Portfolio
+                    </Link>
+
+                    <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1"></div>
+
                     {/* Dark Mode Toggle */}
                     <button
                         onClick={toggleDarkMode}
@@ -49,12 +63,14 @@ const BuilderPage = () => {
                         className="w-8 h-8 flex items-center justify-center rounded-md text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                         aria-label="Toggle dark mode"
                     >
-                        {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                        {darkMode ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4" />}
                     </button>
 
                     <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1"></div>
-                    <button className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">Log in</button>
-                    <button className="px-3 py-1.5 bg-gray-900 dark:bg-indigo-600 hover:bg-gray-800 dark:hover:bg-indigo-700 text-white rounded-md text-sm font-medium shadow-sm transition-colors">Sign up</button>
+                    <button onClick={() => setAuthOpen(true)} className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors flex items-center gap-1.5">
+                        <LogIn className="w-4 h-4" /> Log in
+                    </button>
+                    <button onClick={() => setAuthOpen(true)} className="px-3 py-1.5 bg-gray-900 dark:bg-indigo-600 hover:bg-gray-800 dark:hover:bg-indigo-700 text-white rounded-md text-sm font-medium shadow-sm transition-colors">Sign up</button>
                 </div>
             </header>
 
@@ -64,6 +80,7 @@ const BuilderPage = () => {
                 <CVPreview />
             </main>
 
+            <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
         </div>
     );
 };

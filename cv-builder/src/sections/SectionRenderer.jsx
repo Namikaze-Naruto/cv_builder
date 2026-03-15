@@ -4,13 +4,19 @@ import Experience from '../sections/Experience';
 import Education from '../sections/Education';
 import Projects from '../sections/Projects';
 import Skills from '../sections/Skills';
+import Summary from '../sections/Summary';
 
 const componentsMap = {
+    summary: Summary,
     experience: Experience,
     education: Education,
     projects: Projects,
     skills: Skills,
-    // Add more mappings here as new sections are built (e.g. Research, Certifications)
+    research: Experience, // Use Experience as a base for research
+    publications: Projects, // Use Projects as a base for publications
+    residency: Experience,
+    certifications: Projects,
+    achievements: Projects,
 };
 
 // SectionRenderer dynamically renders the correct component based on type

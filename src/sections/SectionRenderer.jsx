@@ -5,6 +5,11 @@ import Education from '../sections/Education';
 import Projects from '../sections/Projects';
 import Skills from '../sections/Skills';
 import Summary from '../sections/Summary';
+import Research from '../sections/Research';
+import Publications from '../sections/Publications';
+import Residency from '../sections/Residency';
+import Certifications from '../sections/Certifications';
+import Achievements from '../sections/Achievements';
 
 const componentsMap = {
     summary: Summary,
@@ -12,7 +17,11 @@ const componentsMap = {
     education: Education,
     projects: Projects,
     skills: Skills,
-    // Add more mappings here as new sections are built (e.g. Research, Certifications)
+    research: Research,
+    publications: Publications,
+    residency: Residency,
+    certifications: Certifications,
+    achievements: Achievements,
 };
 
 // SectionRenderer dynamically renders the correct component based on type
