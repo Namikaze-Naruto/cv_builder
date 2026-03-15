@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import EditorPanel from '../components/editor/EditorPanel';
 import CVPreview from '../components/preview/CVPreview';
 import { useCVStore } from '../state/useCVStore';
@@ -13,18 +13,55 @@ const BuilderPage = () => {
     const [authOpen, setAuthOpen] = useState(false);
     // Mobile tab: 'edit' | 'preview'
     const [mobileTab, setMobileTab] = useState('edit');
+    const [leftPanelWidth, setLeftPanelWidth] = useState(520);
+    const [isResizing, setIsResizing] = useState(false);
+    const workspaceRef = useRef(null);
+
+    useEffect(() => {
+        if (!isResizing) return;
+
+        const handleMouseMove = (event) => {
+            const bounds = workspaceRef.current?.getBoundingClientRect();
+            if (!bounds) return;
+
+            const minLeft = 340;
+            const minRight = 420;
+            const maxLeft = Math.max(minLeft, bounds.width - minRight);
+            const nextWidth = event.clientX - bounds.left;
+            const clampedWidth = Math.min(Math.max(nextWidth, minLeft), maxLeft);
+            setLeftPanelWidth(clampedWidth);
+        };
+
+        const handleMouseUp = () => {
+            setIsResizing(false);
+            document.body.style.userSelect = '';
+            document.body.style.cursor = '';
+        };
+
+        document.body.style.userSelect = 'none';
+        document.body.style.cursor = 'col-resize';
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseup', handleMouseUp);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseup', handleMouseUp);
+            document.body.style.userSelect = '';
+            document.body.style.cursor = '';
+        };
+    }, [isResizing]);
 
     return (
         <div className="h-screen w-full flex flex-col overflow-hidden bg-gray-50 dark:bg-gray-950">
 
             {/* SaaS App Header — glassmorphism */}
             <header className="h-14 backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border-b border-gray-200/60 dark:border-gray-700/60 shrink-0 flex items-center justify-between px-4 sm:px-6 shadow-sm z-20">
-                <div className="flex items-center gap-2">
+                <Link to="/" className="flex items-center gap-2" aria-label="Go to home page">
                     <div className="w-8 h-8 bg-indigo-600 rounded-md flex items-center justify-center text-white font-bold">
-                        CV
+                        CR
                     </div>
-                    <span className="font-bold text-gray-900 dark:text-white tracking-tight text-lg font-outfit">Builder<span className="text-indigo-600">Pro</span></span>
-                </div>
+                    <span className="font-bold text-gray-900 dark:text-white tracking-tight text-lg font-outfit">Career<span className="text-indigo-600">-Resume</span></span>
+                </Link>
 
                 <div className="flex items-center gap-3 sm:gap-4">
                     {/* Profession Presets Dropdown */}
@@ -113,13 +150,27 @@ const BuilderPage = () => {
             </div>
 
             {/* Main Workspace Area: Left Editor + Right Preview */}
-            <main className="flex-1 flex overflow-hidden">
+            <main ref={workspaceRef} className="flex-1 flex overflow-hidden min-h-0">
                 {/* Editor: full width on mobile (hidden when preview tab active), fixed width on desktop */}
-                <div className={`${mobileTab === 'edit' ? 'flex' : 'hidden'} md:flex flex-col w-full md:w-auto`}>
-                    <EditorPanel />
+                <div
+                    className={`${mobileTab === 'edit' ? 'flex' : 'hidden'} md:flex flex-col w-full min-h-0`}
+                    style={{ '--editor-width': `${leftPanelWidth}px`, width: '100%' }}
+                >
+                    <div className="w-full md:w-[var(--editor-width)] min-h-0 h-full">
+                        <EditorPanel />
+                    </div>
                 </div>
+
+                <button
+                    type="button"
+                    onMouseDown={() => setIsResizing(true)}
+                    className="hidden md:block w-1.5 bg-gray-200 dark:bg-gray-700 hover:bg-indigo-400 dark:hover:bg-indigo-500 active:bg-indigo-500 cursor-col-resize transition-colors"
+                    aria-label="Resize editor and preview panels"
+                    title="Drag to resize panels"
+                />
+
                 {/* Preview: full width on mobile (hidden when edit tab active), fills remaining space on desktop */}
-                <div className={`${mobileTab === 'preview' ? 'flex' : 'hidden'} md:flex flex-1 flex-col min-w-0`}>
+                <div className={`${mobileTab === 'preview' ? 'flex' : 'hidden'} md:flex flex-1 flex-col min-w-0 min-h-0`}>
                     <CVPreview />
                 </div>
             </main>

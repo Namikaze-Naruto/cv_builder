@@ -7,7 +7,7 @@ import ATSCalculator from './ATSCalculator';
 
 const EditorPanel = () => {
     return (
-        <div className="flex flex-col min-h-0 bg-slate-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 w-full lg:w-[480px] xl:w-[540px] shrink-0 overflow-y-auto custom-scrollbar">
+        <div className="flex flex-col h-full min-h-0 bg-slate-50 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 w-full shrink-0 overflow-y-auto custom-scrollbar">
             <div className="p-6">
 
                 {/* AI SaaS Integration */}
